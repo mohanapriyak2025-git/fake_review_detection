@@ -104,15 +104,19 @@ if st.button("Submit Feedback"):
 
 
 # ---------------- VIEW FEEDBACK ----------------
-st.subheader("📊 App Reviews (Admin View)")
+st.sidebar.subheader("🔐 Admin Access")
 
-try:
-    with open("feedback.txt", "r", encoding="utf-8") as f:
-        data = f.read()
-        st.text(data)
-except:
-    st.info("No feedback yet")
+admin = st.sidebar.checkbox("Show Feedback (Admin Only)")
 
+if admin:
+    st.subheader("📊 App Reviews")
+
+    try:
+        with open("feedback.txt", "r", encoding="utf-8") as f:
+            data = f.read()
+            st.text(data)
+    except:
+        st.info("No feedback yet")
 
 # ---------------- BACKGROUND ----------------
 st.markdown(
