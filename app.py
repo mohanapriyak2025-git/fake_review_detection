@@ -1,8 +1,3 @@
-st.markdown("""
-<meta name="google-site-verification" content="X9R9DUA6jMwV6AMig9KhY8RdhGYLcNechVYhhiQDFg8" />
-""", unsafe_allow_html=True)
-
-
 import streamlit as st
 import pickle
 import pandas as pd
