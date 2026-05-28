@@ -7,13 +7,22 @@ tfidf = pickle.load(open('tfidf.pkl', 'rb'))
 
 st.set_page_config(page_title="Fake Review Detector", page_icon="🔍")
 
-st.title("🛡️Fake Review Detection System")
+st.title("🛡️ Fake Review Detection System")
 st.write("Detect Fake or Genuine reviews using Machine Learning")
+
+
+# ---------------- VISITOR COUNTER ----------------
+if "visits" not in st.session_state:
+    st.session_state.visits = 0
+
+st.session_state.visits += 1
+st.sidebar.write("👀 App Usage Count:", st.session_state.visits)
+
 
 # ---------------- MULTI-LINE INPUT ----------------
 st.subheader("✍️ Paste Reviews (One per line)")
 
-reviews_text = st.text_area("Enter  reviews")
+reviews_text = st.text_area("Enter reviews")
 
 if st.button("Predict Pasted Reviews"):
 
@@ -36,6 +45,7 @@ if st.button("Predict Pasted Reviews"):
 
 st.divider()
 
+
 # ---------------- CSV UPLOAD ----------------
 st.subheader("📂 Upload CSV File")
 
@@ -56,8 +66,9 @@ if file is not None:
     if review_col is None:
         review_col = df.columns[0]
 
-    reviews = df[review_col].astype(str)
+    df['username'] = ["User " + str(i+1) for i in range(len(df))]
 
+    reviews = df[review_col].astype(str)
     predictions = model.predict(tfidf.transform(reviews))
 
     df['prediction'] = predictions
@@ -66,7 +77,41 @@ if file is not None:
         lambda x: "Fake Review" if x == 0 else "Genuine Review"
     )
 
-    st.dataframe(df, use_container_width=True)
+    result_df = pd.DataFrame({
+        "Username": df["username"],
+        "Review": df[review_col],
+        "Prediction": df["result"]
+    })
+
+    st.dataframe(result_df, use_container_width=True)
+
+
+st.divider()
+
+
+# ---------------- FEEDBACK SYSTEM ----------------
+st.subheader("💬 Give Feedback About This App")
+
+rating = st.slider("Rate this app (1-5 ⭐)", 1, 5)
+comment = st.text_area("Write your feedback")
+
+if st.button("Submit Feedback"):
+
+    with open("feedback.txt", "a", encoding="utf-8") as f:
+        f.write(f"Rating: {rating} | Comment: {comment}\n")
+
+    st.success("Thank you for your feedback!")
+
+
+# ---------------- VIEW FEEDBACK ----------------
+st.subheader("📊 App Reviews (Admin View)")
+
+try:
+    with open("feedback.txt", "r", encoding="utf-8") as f:
+        data = f.read()
+        st.text(data)
+except:
+    st.info("No feedback yet")
 
 
 # ---------------- BACKGROUND ----------------
