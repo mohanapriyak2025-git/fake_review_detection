@@ -1,7 +1,7 @@
 Fake Review Detection System
 
 Live App:
-https://your-app.streamlit.app
+https://fakereviewdetection-fua8ilemhlqvknibsnxfk6.streamlit.app/
 
 Features:
 - Fake/Genuine review detection
