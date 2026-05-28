@@ -7,7 +7,7 @@ tfidf = pickle.load(open('tfidf.pkl', 'rb'))
 
 st.set_page_config(page_title="Fake Review Detector", page_icon="🔍")
 
-st.title("🛡️ Fake Review Detection System")
+st.title("🛡️Fake Review Detector | AI Review Checker (NLP Project)")
 st.write("Detect Fake or Genuine reviews using Machine Learning")
 
 
@@ -128,4 +128,12 @@ st.markdown(
     </style>
     """,
     unsafe_allow_html=True
+
 )
+
+
+#---------------
+
+st.markdown("""
+Fake review detector, AI review checker, sentiment analysis tool, NLP project, machine learning fake review detection, Amazon review classifier
+""")
